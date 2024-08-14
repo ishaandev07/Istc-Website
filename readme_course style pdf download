@@ -1,0 +1,306 @@
+import React, { useState } from "react";
+
+const SkillDevelopmentProgrammes = () => {
+  const [selectedNavItem, setSelectedNavItem] = useState(null);
+
+  const handleNavItemSelect = (title) => {
+    if (selectedNavItem === title) {
+      // If the same item is clicked again, close it
+      setSelectedNavItem(null);
+    } else {
+      setSelectedNavItem(title);
+    }
+  };
+
+  const handleReturnToOriginal = () => {
+    setSelectedNavItem(null); // Reset selectedNavItem to null to show the original content
+  };
+
+  const handleDownloadPDF = (pdfPath) => {
+    const link = document.createElement('a');
+    link.href = pdfPath;
+    link.download = pdfPath.substring(pdfPath.lastIndexOf('/') + 1); // Extract filename from path for download attribute
+    link.target = '_blank'; // Open the link in a new tab (optional)
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        fontFamily: "Arial, sans-serif",
+        maxWidth: "800px",
+        margin: "20px auto", // Centering the entire container
+        backgroundColor: "#f9f9f9",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        borderRadius: "8px",
+        overflow: "hidden", // Ensures the sidebar stays within the container
+      }}
+    >
+      {/* Left navigation */}
+      <div
+        style={{
+          flex: "0 0 25%",
+          padding: "20px",
+          backgroundColor: "#fff",
+          borderRight: "1px solid #ddd",
+          position: "sticky",
+          top: "20px", // Adjust as needed for spacing from top
+          height: "calc(100vh - 40px)", // Calculate remaining height of viewport
+          overflowY: "auto", // Enable scrolling if content exceeds viewport height
+        }}
+      >
+        <DropdownNavItem
+          title="Faculty and staff"
+          selected={selectedNavItem === "Faculty and staff"}
+          onSelect={handleNavItemSelect}
+        >
+          <ul>
+            <li>CNC Operator Vertical Machining Centre</li>
+            <li>Draughtsman-Mechanical</li>
+            <li>Fitter Mechanical Assembly</li>
+            <li>Operator-Conventional Milling</li>
+            <li>Operator-Conventional Turning</li>
+          </ul>
+        </DropdownNavItem>
+        <DropdownNavItem
+          title="Sector-Construction"
+          selected={selectedNavItem === "Sector-Construction"}
+          onSelect={handleNavItemSelect}
+        >
+          <ul>
+            <li>Assistant Electrician (QP Code-CON/Q0602)</li>
+          </ul>
+        </DropdownNavItem>
+        <DropdownNavItem
+          title="Sector-Electronics & Hardware"
+          selected={selectedNavItem === "Sector-Electronics & Hardware"}
+          onSelect={handleNavItemSelect}
+        >
+          <ul>
+            <li>Electrical Assembly Operator- Control Panel (QP Code-ELE/Q7306)</li>
+            <li>Manual Soldering Technician (QP Code-ELE/Q0105)</li>
+            <li>PCB Design Engineer (QP Code-ELE/Q8703)</li>
+          </ul>
+        </DropdownNavItem>
+        <DropdownNavItem
+          title="Sector-Healthcare"
+          selected={selectedNavItem === "Sector-Healthcare"}
+          onSelect={handleNavItemSelect}
+        >
+          <ul>
+            <li>Medical Equipment Technician (Basic Clinical Equipment, QP Code-HSS/Q5601)</li>
+          </ul>
+        </DropdownNavItem>
+        <DropdownNavItem
+          title="Resources"
+          selected={selectedNavItem === "Resources"}
+          onSelect={handleNavItemSelect}
+        >
+          <ul>
+            <li>
+              <button
+                onClick={() => handleDownloadPDF('/pdfs/info_brochure.pdf')}
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                  border: "none",
+                  borderBottom: "1px solid #ddd",
+                  cursor: "pointer",
+                }}
+              >
+                Resource 1 PDF
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => handleDownloadPDF('/pdfs/countStates.pdf')}
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                  border: "none",
+                  borderBottom: "1px solid #ddd",
+                  cursor: "pointer",
+                }}
+              >
+                Resource 2 PDF
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => handleDownloadPDF('/assets/pdfs/resource3.pdf')}
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                  border: "none",
+                  borderBottom: "1px solid #ddd",
+                  cursor: "pointer",
+                }}
+              >
+                Resource 3 PDF
+              </button>
+            </li>
+          </ul>
+        </DropdownNavItem>
+        <DropdownNavItem
+          title="Return to Original Page"
+          selected={selectedNavItem === "Return to Original Page"}
+          onSelect={handleReturnToOriginal}
+        />
+      </div>
+
+      {/* Main content area */}
+      <div style={{ flex: "1", padding: "20px", overflowY: "auto" }}>
+        <img
+          src="/assets/images/style_img1.png"
+          alt="Skill Development Banner"
+          style={{
+            width: "100%",
+            height: "auto",
+            borderRadius: "8px",
+            marginBottom: "20px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        />
+
+        <div style={{ textAlign: "left" }}>
+          <h2
+            style={{
+              fontSize: "2rem",
+              color: "#333",
+              borderBottom: "2px solid #333",
+              paddingBottom: "10px",
+              marginBottom: "20px",
+            }}
+          >
+            {selectedNavItem || "Skill Development Programmes"}
+          </h2>
+          {selectedNavItem ? (
+            renderSelectedContent(selectedNavItem)
+          ) : (
+            <>
+              <p style={{ fontSize: "1.1rem", lineHeight: "1.6" }}>
+                The National Skill Development Policy of the Government of India,
+                issued in March 2009, states that the demand for skilled manpower by
+                2022 will be 50 million. Due to increasing urbanization, 50 million
+                non-farm employment opportunities will be created during the period
+                from 2012 to 2017 and the same number of people would require
+                certified skill training. Keeping this urgent national requirement in
+                mind, CSIO-ISTC has over the past few years tied up with the Skill
+                Development Missions of Punjab and Chandigarh in courses like:
+              </p>
+
+              <p style={{ fontSize: "1.1rem", lineHeight: "1.6" }}>
+                The Skill training programmes are designed to provide skills to the
+                unskilled urban poor as well as to upgrade their existing skills,
+                thus enabling them to set up self-employment ventures and to get
+                salaried jobs in the private sector. The programmes intend to fill
+                the gap between the demand and availability of local skills by
+                providing skill training programs as required by the market. This
+                will eventually lead to better living standards and alleviation of
+                urban poverty on a sustainable basis and ensure inclusive growth with
+                increased contribution of skilled urban poor to the national economy.
+              </p>
+
+              <p style={{ fontSize: "1.1rem", lineHeight: "1.6", fontWeight: "bold" }}>
+                At present no short term skill courses are being conducted at ISTC
+              </p>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const DropdownNavItem = ({ title, selected, onSelect, children }) => {
+  const handleSelect = () => {
+    onSelect(title);
+  };
+
+  return (
+    <div style={{ marginBottom: "20px" }}>
+      <button
+        onClick={handleSelect}
+        style={{
+          width: "100%",
+          textAlign: "left",
+          padding: "10px",
+          backgroundColor: selected ? "#f0f0f0" : "#fff",
+          border: "none",
+          borderBottom: "1px solid #ddd",
+          cursor: "pointer",
+        }}
+      >
+        {title}
+        {selected && (
+          <svg
+            className="ml-2 h-4 w-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 12a1 1 0 01-.707-.293l-4-4a1 1 0 111.414-1.414L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4A1 1 0 0110 12z"
+              clipRule="evenodd"
+            />
+          </svg>
+        )}
+      </button>
+      {selected && (
+        <div style={{ marginTop: "10px" }}>
+          {children}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const renderSelectedContent = (selectedNavItem) => {
+  switch (selectedNavItem) {
+    case "Faculty and staff":
+      return (
+        <ul style={{ fontSize: "1.1rem", lineHeight: "1.6" }}>
+          <li>DURGESH MISHRA</li>
+          <li>Draughtsman-Mechanical</li>
+          <li>Fitter Mechanical Assembly</li>
+          <li>Operator-Conventional Milling</li>
+          <li>Operator-Conventional Turning</li>
+        </ul>
+      );
+    case "Sector-Construction":
+      return (
+        <ul style={{ fontSize: "1.1rem", lineHeight: "1.6" }}>
+          <li>Assistant Electrician (QP Code-CON/Q0602)</li>
+        </ul>
+      );
+    case "Sector-Electronics & Hardware":
+      return (
+        <ul style={{ fontSize: "1.1rem", lineHeight: "1.6" }}>
+          <li>Electrical Assembly Operator- Control Panel (QP Code-ELE/Q7306)</li>
+          <li>Manual Soldering Technician (QP Code-ELE/Q0105)</li>
+          <li>PCB Design Engineer (QP Code-ELE/Q8703)</li>
+        </ul>
+      );
+    case "Sector-Healthcare":
+      return (
+        <ul style={{ fontSize: "1.1rem", lineHeight: "1.6" }}>
+          <li>Medical Equipment Technician (Basic Clinical Equipment, QP Code-HSS/Q5601)</li>
+        </ul>
+      );
+    default:
+      return null;
+  }
+};
+
+export default SkillDevelopmentProgrammes;
